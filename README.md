@@ -10,9 +10,9 @@ Sign up for Cointopay account at <https://cointopay.com>
 
 ### Via Extension Manager
 
-1. Download []()
+1. Download [cointopay-virtuemart-v1.0.zip](https://github.com/Cointopay/Joomla-Virtuemart/releases/download/cointopay-virtuemart-v1.0.zip/cointopay-virtuemart-v1.0.zip)
 
-2. Login to your VirtueMart store admin panel, go to *Extensions » Extension Manager » Install*. In the *Upload Package File* part, choose **cointopay-virtuemart.zip** you previously downloaded, then click **Upload & Install**.
+2. Login to your VirtueMart store admin panel, go to *Extensions » Extension Manager » Install*. In the *Upload Package File* part, choose **cointopay-virtuemart** zip file you previously downloaded, then click **Upload & Install**.
 
 3. Go to *Extensions » Extension Manager » Manage*.
 In search box type **Cointopay** and click **Search**. Either click on status indicator located in Cointopay extension row, or mark the checkbox of Cointopay extension row and click **Enable** at the top of admin panel.
