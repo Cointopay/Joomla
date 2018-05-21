@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<extension version="1.0" type="plugin" group="vmpayment" method="upgrade">
+  <name>VM Payment - Cointopay International</name>
+  <creationDate>May 15th 2018</creationDate>
+  <author>Cointopay International</author>
+  <authorUrl>https://www.cointopay.com</authorUrl>
+  <copyright>Copyright (C) 2018</copyright>
+  <version status="MINOR">1.0</version>
+  <description>Cointopay International</description>
+
+  <files>
+    <filename plugin="cointopay">cointopay.php</filename>
+    <folder>cointopay</folder>
+    <folder>language</folder>
+  </files>
+
+  <params addpath="/administrator/components/com_virtuemart/elements">
+    <param type="spacer" default="VMPAYMENT_COINTOPAY_CREDENTIALS_LABEL" level="level1" />
+    <param name="merchant_id" type="text" label="MERCHANT ID" description="" />
+    <param name="security_code" type="text" label="SECURITY CODE" description="" />
+  </params>
+
+  <config>
+   <fields name="params">
+      <fieldset name="basic">
+        <field type="spacer" default="VMPAYMENT_COINTOPAY_CREDENTIALS_LABEL" level="level1" />
+        <field name="merchant_id" type="text" label="MERCHANT ID" description=""/>
+        <field name="security_code" type="text" label="SECURITY CODE" description=""/>
+      </fieldset>
+    </fields>
+  </config>
+</extension>
