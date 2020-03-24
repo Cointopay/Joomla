@@ -108,7 +108,6 @@ class plgVmPaymentCointopay extends vmPSPlugin
 
             $jinput = JFactory::getApplication()->input;
             $callbackData = $jinput->getArray(array());
-
             $ctpOrderStatus = $callbackData['status'];
             $notEnough = $callbackData['notenough'];
 
@@ -121,6 +120,18 @@ class plgVmPaymentCointopay extends vmPSPlugin
                 'Status' => $callbackData['status'],
                 'ConfirmCode' => $callbackData['ConfirmCode']
             ];
+			 $query = "SELECT payment_params FROM `#__virtuemart_paymentmethods` WHERE  payment_element = 'cointopay'";
+			 $db = JFactory::getDBO();
+			 $db->setQuery($query);
+			 $params = $db->loadResult();
+			 $payment_params = explode("=", explode("|", $params)[2]);
+			 $api_key = str_replace('"','',$payment_params[1]);
+			 $value_data = "MerchantID=" . $callbackData['MerchantID'] . "&AltCoinID=" . $callbackData['AltCoinID'] . "&TransactionID=" . $callbackData['TransactionID'] . "&coinAddress=" . $callbackData['CoinAddressUsed'] . "&CustomerReferenceNr=" . 
+$callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $callbackData['SecurityCode'] . "&inputCurrency=" . $callbackData['inputCurrency'];
+            $ConfirmCode = $this->calculateRFC2104HMAC($api_key, $value_data);
+			if($ConfirmCode !== $callbackData['ConfirmCode']){
+				throw new Exception('Data mismatch! Data does\'t match with Cointopay');
+			}
             $response = $this->validateResponse($data);
             if(!$response) {
                 throw new Exception('Data mismatch! Data does\'t match with Cointopay');
@@ -329,6 +340,15 @@ class plgVmPaymentCointopay extends vmPSPlugin
     protected function checkConditions($cart, $method, $cart_prices)
     {
         return true;
+    }
+	public function calculateRFC2104HMAC ($key, $data)
+	{
+		$s = hash_hmac('sha256', $data, $key, true);
+
+		return strtoupper($this->base64url_encode($s));
+	}
+	public function base64url_encode($data) {
+    return strtoupper(rtrim(strtr(base64_encode($data), '+/', '-_'), '='));
     }
 
 }

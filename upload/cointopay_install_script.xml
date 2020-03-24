@@ -9,7 +9,7 @@
 	<author>Cointopay</author>
 	<authorUrl>https://cointopay.com</authorUrl>
 	<copyright>Copyright (C) 2018</copyright>
-	<version status="MINOR">1.0.0</version>
+	<version status="MINOR">1.1</version>
 
 	<files>
 		<filename plugin="cointopay">cointopay.xml</filename>
