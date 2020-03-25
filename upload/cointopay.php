@@ -126,8 +126,15 @@ class plgVmPaymentCointopay extends vmPSPlugin
 			 $params = $db->loadResult();
 			 $payment_params = explode("=", explode("|", $params)[2]);
 			 $api_key = str_replace('"','',$payment_params[1]);
-			 $value_data = "MerchantID=" . $callbackData['MerchantID'] . "&AltCoinID=" . $callbackData['AltCoinID'] . "&TransactionID=" . $callbackData['TransactionID'] . "&coinAddress=" . $callbackData['CoinAddressUsed'] . "&CustomerReferenceNr=" . 
-$callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $callbackData['SecurityCode'] . "&inputCurrency=" . $callbackData['inputCurrency'];
+			$transactionData = $this->getTransactiondetail($data);
+            if(!$transactionData) {
+                throw new Exception('Data mismatch! Data does\'t match with Cointopay');
+            }
+			if(200 !== $transactionData['status_code']){
+				throw new Exception($transactionData['message']);
+			}
+			$value_data = "MerchantID=" . $transactionData['data']['MerchantID'] . "&AltCoinID=" . $transactionData['data']['AltCoinID'] . "&TransactionID=" . $callbackData['TransactionID'] . "&coinAddress=" . $transactionData['data']['coinAddress'] . "&CustomerReferenceNr=" . 
+$callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $transactionData['data']['SecurityCode'] . "&inputCurrency=" . $transactionData['data']['inputCurrency'];
             $ConfirmCode = $this->calculateRFC2104HMAC($api_key, $value_data);
 			if($ConfirmCode !== $callbackData['ConfirmCode']){
 				throw new Exception('Data mismatch! Data does\'t match with Cointopay');
@@ -216,6 +223,31 @@ $callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $callbackData['Securit
             }
         }
         return $validate;
+    }
+	public function getTransactiondetail($data) {
+        $validate = true;
+
+        $query = "SELECT payment_params FROM `#__virtuemart_paymentmethods` WHERE  payment_element = 'cointopay'";
+        $db = JFactory::getDBO();
+        $db->setQuery($query);
+        $params = $db->loadResult();
+        $payment_params = explode("=", explode("|", $params)[0]);
+        $merchant_id = str_replace('"','',$payment_params[1]);
+        $confirm_code = $data['ConfirmCode'];
+        $url = "https://cointopay.com/v2REAPI?Call=Transactiondetail&MerchantID=".$merchant_id."&output=json&ConfirmCode=".$confirm_code."&APIKey=a";
+        $curl = curl_init($url);
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_SSL_VERIFYPEER => 0
+        ));
+        $result = curl_exec($curl);
+        $result = json_decode($result, true);
+        if(!$result || !is_array($result)) {
+            $validate = false;
+        }
+		else{
+			return $result;
+		}
     }
 
     function plgVmOnPaymentResponseReceived(&$html)
