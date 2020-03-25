@@ -128,7 +128,7 @@ class plgVmPaymentCointopay extends vmPSPlugin
 			 $api_key = str_replace('"','',$payment_params[1]);
 			$transactionData = $this->getTransactiondetail($data);
             if(!$transactionData) {
-                throw new Exception('Data mismatch! Data does\'t match with Cointopay');
+                throw new Exception('Data mismatch! Data doesn\'t match with Cointopay');
             }
 			if(200 !== $transactionData['status_code']){
 				throw new Exception($transactionData['message']);
@@ -137,11 +137,11 @@ class plgVmPaymentCointopay extends vmPSPlugin
 $callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $transactionData['data']['SecurityCode'] . "&inputCurrency=" . $transactionData['data']['inputCurrency'];
             $ConfirmCode = $this->calculateRFC2104HMAC($api_key, $value_data);
 			if($ConfirmCode !== $callbackData['ConfirmCode']){
-				throw new Exception('Data mismatch! Data does\'t match with Cointopay');
+				throw new Exception('Data mismatch! Data doesn\'t match with Cointopay');
 			}
             $response = $this->validateResponse($data);
             if(!$response) {
-                throw new Exception('Data mismatch! Data does\'t match with Cointopay');
+                throw new Exception('Data mismatch! Data doesn\'t match with Cointopay');
             }
 
             $modelOrder = VmModel::getModel('orders');
