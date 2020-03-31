@@ -151,7 +151,11 @@ $callbackData['CustomerReferenceNr'] . "&SecurityCode=" . $transactionData['data
             if (!$order)
                 throw new Exception('Order #' . $callbackData['CustomerReferenceNr'] . ' does not exists');
 
-            $method = $this->getVmPluginMethod($order['details']['BT']->virtuemart_paymentmethod_id);
+            if($response->Status !== $ctpOrderStatus)
+			   {
+				   throw new Exception('We have detected different order status. Your order has been halted.');
+			   }
+			$method = $this->getVmPluginMethod($order['details']['BT']->virtuemart_paymentmethod_id);
 
 
             if (!$this->selectedThisElement($method->payment_element))
