@@ -17,7 +17,7 @@ Sign up for a Cointopay account at <https://cointopay.com>
 3. Go to *Extensions » Extension Manager » Manage*.
 In search box type **Cointopay** and click **Search**. Either click on status indicator located in Cointopay extension row, or mark the checkbox of Cointopay extension row and click **Enable** at the top of admin panel.
 
-4. Go to *VirtueMart » Payment Methods » New*. Type in the information, selecting **VM Payment - Cointopay** as **Payment Method**. Be sure to select **Yes** in the publish section. Click **Save**. Click **Configuration**. Fill in your [API Credentials](http://cointopay.com) (*Merchant ID*,*Security Code*,*API Key*) from Cointopay. Cointopay using default VirtueMart Order Status. Click **Save & Close**.
+4. Go to *VirtueMart » Payment Methods » New*. Type in the information, selecting **VM Payment - Cointopay** as **Payment Method**. Be sure to select **Yes** in the publish section. Click **Save**. Click **Configuration**. Fill in your [API Credentials](http://cointopay.com) (*Merchant ID*,*Security Code*) from Cointopay. Cointopay using default VirtueMart Order Status. Click **Save & Close**.
 
 
 ### Support or Contact
