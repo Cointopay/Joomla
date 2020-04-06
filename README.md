@@ -7,6 +7,8 @@ Cointopay plugin: Virtuemart on top of Joomla CMS enables your e-commerce!
 
 Sign up for a Cointopay account at <https://cointopay.com>
 
+Please follow the Joomla VirtueMart Cointopay Plugin install instructions mentioned here: <a href="https://docs.google.com/document/d/1ixFzYJgUCnNbEtv4pHgx4fhrzJd4oDjLMOSB_HxtMiY/edit?ts=5e82fa11#">download Joomla VirtueMart Cointopay Plugin documentation</a> or direct link: https://docs.google.com/document/d/1ixFzYJgUCnNbEtv4pHgx4fhrzJd4oDjLMOSB_HxtMiY/edit?ts=5e82fa11#
+
 
 ### Via Extension Manager
 

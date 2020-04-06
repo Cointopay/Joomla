@@ -128,8 +128,8 @@ class plgVmPaymentCointopay extends vmPSPlugin
 				throw new Exception($transactionData['message']);
 			}
             $response = $this->validateResponse($data);
-            if(!$response) {
-                throw new Exception('Data mismatch! Data doesn\'t match with Cointopay');
+            if(is_string($response)) {
+                throw new Exception($response);
             }
 
             $modelOrder = VmModel::getModel('orders');
@@ -139,9 +139,9 @@ class plgVmPaymentCointopay extends vmPSPlugin
             if (!$order)
                 throw new Exception('Order #' . $callbackData['CustomerReferenceNr'] . ' does not exists');
 
-            if($response->Status !== $ctpOrderStatus)
+            if($response['Status'] !== $ctpOrderStatus)
 			   {
-				   throw new Exception('We have detected different order status. Your order has been halted.');
+				   throw new Exception('We have detected different order status. Your order is '. $response['Status']);
 			   }
 			$method = $this->getVmPluginMethod($order['details']['BT']->virtuemart_paymentmethod_id);
 
@@ -205,16 +205,9 @@ class plgVmPaymentCointopay extends vmPSPlugin
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_SSL_VERIFYPEER => 0
         ));
-        $result = curl_exec($curl);
-        $result = json_decode($result, true);
-        if(!$result || !is_array($result)) {
-            $validate = false;
-        }else{
-            if($response['Status'] != $result['Status']) {
-                $validate = false;
-            }
-        }
-        return $validate;
+        $response = curl_exec($curl);
+        $results = json_decode($response, true);
+		return $results;
     }
 	public function getTransactiondetail($data) {
         $validate = true;
