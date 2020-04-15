@@ -121,11 +121,38 @@ class plgVmPaymentCointopay extends vmPSPlugin
                 'ConfirmCode' => $callbackData['ConfirmCode']
             ];
 			$transactionData = $this->getTransactiondetail($data);
-            if(!$transactionData) {
-                throw new Exception('Data mismatch! Data doesn\'t match with Cointopay');
-            }
-			if(200 !== $transactionData['status_code']){
+            if(200 !== $transactionData['status_code']){
 				throw new Exception($transactionData['message']);
+			}
+			else{
+				if($transactionData['data']['Security'] != $_GET['ConfirmCode']){
+					throw new Exception("Data mismatch! ConfirmCode doesn\'t match");
+				}
+				elseif($transactionData['data']['CustomerReferenceNr'] != $_GET['CustomerReferenceNr']){
+					throw new Exception("Data mismatch! CustomerReferenceNr doesn\'t match");
+				}
+				elseif($transactionData['data']['TransactionID'] != $_GET['TransactionID']){
+					throw new Exception("Data mismatch! TransactionID doesn\'t match");
+				}
+				elseif($transactionData['data']['AltCoinID'] != $_GET['AltCoinID']){
+					throw new Exception("Data mismatch! AltCoinID doesn\'t match");
+				}
+				elseif($transactionData['data']['MerchantID'] != $_GET['MerchantID']){
+					throw new Exception("Data mismatch! MerchantID doesn\'t match");
+				}
+				elseif($transactionData['data']['coinAddress'] != $_GET['CoinAddressUsed']){
+					throw new Exception("Data mismatch! coinAddress doesn\'t match");
+				}
+				elseif($transactionData['data']['SecurityCode'] != $_GET['SecurityCode']){
+					throw new Exception("Data mismatch! SecurityCode doesn\'t match");
+				}
+				elseif($transactionData['data']['inputCurrency'] != $_GET['inputCurrency']){
+					throw new Exception("Data mismatch! inputCurrency doesn\'t match");
+				}
+				elseif($transactionData['data']['Status'] != $_GET['status']){
+					throw new Exception("Data mismatch! status doesn\'t match. Your order status is ".$transactionData['data']['Status']);
+				}
+				
 			}
             $response = $this->validateResponse($data);
             if(is_string($response)) {
@@ -227,12 +254,7 @@ class plgVmPaymentCointopay extends vmPSPlugin
         ));
         $result = curl_exec($curl);
         $result = json_decode($result, true);
-        if(!$result || !is_array($result)) {
-            $validate = false;
-        }
-		else{
-			return $result;
-		}
+        return $result;
     }
 
     function plgVmOnPaymentResponseReceived(&$html)
