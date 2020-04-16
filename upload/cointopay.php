@@ -134,19 +134,19 @@ class plgVmPaymentCointopay extends vmPSPlugin
 				elseif($transactionData['data']['TransactionID'] != $_GET['TransactionID']){
 					throw new Exception("Data mismatch! TransactionID doesn\'t match");
 				}
-				elseif($transactionData['data']['AltCoinID'] != $_GET['AltCoinID']){
+				elseif(isset($_GET['AltCoinID']) && $transactionData['data']['AltCoinID'] != $_GET['AltCoinID']){
 					throw new Exception("Data mismatch! AltCoinID doesn\'t match");
 				}
-				elseif($transactionData['data']['MerchantID'] != $_GET['MerchantID']){
+				elseif(isset($_GET['MerchantID']) && $transactionData['data']['MerchantID'] != $_GET['MerchantID']){
 					throw new Exception("Data mismatch! MerchantID doesn\'t match");
 				}
-				elseif($transactionData['data']['coinAddress'] != $_GET['CoinAddressUsed']){
+				elseif(isset($_GET['CoinAddressUsed']) && $transactionData['data']['coinAddress'] != $_GET['CoinAddressUsed']){
 					throw new Exception("Data mismatch! coinAddress doesn\'t match");
 				}
-				elseif($transactionData['data']['SecurityCode'] != $_GET['SecurityCode']){
+				elseif(isset($_GET['SecurityCode']) && $transactionData['data']['SecurityCode'] != $_GET['SecurityCode']){
 					throw new Exception("Data mismatch! SecurityCode doesn\'t match");
 				}
-				elseif($transactionData['data']['inputCurrency'] != $_GET['inputCurrency']){
+				elseif(isset($_GET['inputCurrency']) && $transactionData['data']['inputCurrency'] != $_GET['inputCurrency']){
 					throw new Exception("Data mismatch! inputCurrency doesn\'t match");
 				}
 				elseif($transactionData['data']['Status'] != $_GET['status']){
